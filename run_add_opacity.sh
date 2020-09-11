@@ -5,6 +5,7 @@ set -x
 DATA_DIR=/mnt/lssd/data
 BACKUP_DIR=/mnt/lssd/data_backup
 SERVER_DIR=/mnt/lssd/data_opacity
+MBTILES_FILE=MBTILES_FILE
 
 #python3 add_opacity_by_zoom.py ${DATA_DIR}/SMV10_Fels.mbtiles \
 #1:0.1 \
@@ -25,7 +26,7 @@ SERVER_DIR=/mnt/lssd/data_opacity
 #16:0.45 \
 #17:0.45
 
-#python3 add_opacity_by_zoom.py ${DATA_DIR}/SMV10_Geroell.mbtiles \
+#python3 add_opacity_by_zoom.py ${DATA_DIR}/MBTILES_FILE \
 #1:0.1 \
 #2:0.1 \
 #3:0.1 \
@@ -44,8 +45,8 @@ SERVER_DIR=/mnt/lssd/data_opacity
 #16:0.45 \
 #17:0.45
 
-cp ${BACKUP_DIR}/SMV10_Geroell ${DATA_DIR}/SMV10_Geroell
-python3 add_opacity_by_zoom.py ${DATA_DIR}/SMV10_Gletscherform.mbtiles \
+cp ${BACKUP_DIR}/MBTILES_FILE ${DATA_DIR}/MBTILES_FILE
+python3 add_opacity_by_zoom.py ${DATA_DIR}/MBTILES_FILE \
 1:0.1 \
 2:0.1 \
 3:0.1 \
@@ -64,4 +65,4 @@ python3 add_opacity_by_zoom.py ${DATA_DIR}/SMV10_Gletscherform.mbtiles \
 16:0.65 \
 17:0.65
 
-cp ${DATA_DIR}/SMV10_Geroell ${SERVER_DIR}/SMV10_Geroell
+cp ${DATA_DIR}/MBTILES_FILE ${SERVER_DIR}/MBTILES_FILE
