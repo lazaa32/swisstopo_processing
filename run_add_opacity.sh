@@ -2,7 +2,7 @@
 set -e
 set -x
 
-python3 add_opacity_by_zoom.py ../data/SMV10_Fels_with_opacity.mbtiles ../data/SMV10_Fels.mbtiles \
+python3 add_opacity_by_zoom.py ../data/SMV10_Fels.mbtiles \
 1:0.1 \
 2:0.1 \
 3:0.1 \
