@@ -32,7 +32,7 @@ total_processed = 0
 for arg in range(alpha_arg, len(sys.argv)):
     zoom_processed = 0
     zoom, zoom_alpha = sys.argv[arg].split(':')
-    alpha = float(zoom_alpha)
+    alpha = int(float(zoom_alpha) * 255)
 
     # Get number of tiles on given zoom
     read_cur.execute("""
@@ -57,7 +57,7 @@ for arg in range(alpha_arg, len(sys.argv)):
     """, (zoom,))
 
     print('Updating Zoom {} with alpha value: {}'.format(
-        zoom, alpha))
+        zoom, zoom_alpha))
     sys.stdout.flush()
 
     for in_row in read_cur:
@@ -70,8 +70,9 @@ for arg in range(alpha_arg, len(sys.argv)):
         in_im = Image.open(io.BytesIO(in_row[1]))
 
         stream = io.BytesIO()
-        bg = Image.new("RGBA", in_im.size, background_color)
-        blended_im = Image.blend(bg, in_im, alpha)
+        alpha_im = Image.new("RGBA", in_im.size, background_color)
+        alpha_im.putalpha(alpha)
+        blended_im = Image.alpha_composite(in_im, alpha_im)
         blended_im.save(stream, format="PNG")
 
         write_cur.execute("""
