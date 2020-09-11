@@ -45,8 +45,7 @@ for arg in range(alpha_arg, len(sys.argv)):
             SELECT count(1)
             FROM images i
             JOIN map m ON m.tile_id = i.tile_id
-            WHERE m.zoom_level = ?
-            AND i.tile_id IS NOT 'background'
+            WHERE m.zoom_level = ?'
         """, (zoom,))
     zoom_tiles = int(in_cur.fetchone()[0])
 
@@ -56,13 +55,12 @@ for arg in range(alpha_arg, len(sys.argv)):
             m.zoom_level, m.tile_row, m.tile_column
         FROM images i
         JOIN map m ON m.tile_id = i.tile_id
-        WHERE m.zoom_level = ?
-        AND i.tile_id IS NOT 'background'
+        WHERE m.zoom_level = ?'
     """, (zoom,))
     zoom_tiles = 0
     zoom_processed = 0
     background = False
-    print('Updating Zoom {} with alpha value: '.format(
+    print('Updating Zoom {} with alpha value: {}'.format(
         zoom, alpha))
     sys.stdout.flush()
 
