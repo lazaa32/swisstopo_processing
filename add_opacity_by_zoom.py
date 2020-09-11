@@ -13,7 +13,7 @@ def hex_to_rgb(h):
 if len(sys.argv) < 4:
     print("Usage: {} <input> <zoom:alpha> ...".format(
         sys.argv[0]))
-    print("  Blend input * alpha")
+    print("  Blend input * alpha (0-1)")
     sys.exit(1)
 
 input = sys.argv[1]
