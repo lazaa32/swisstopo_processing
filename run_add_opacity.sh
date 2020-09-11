@@ -2,6 +2,8 @@
 set -e
 set -x
 
+cp ../data_backup/SMV10_Fels.mbtiles ../data/SMV10_Fels.mbtiles
+
 python3 add_opacity_by_zoom.py ../data/SMV10_Fels.mbtiles \
 1:0.1 \
 2:0.1 \
