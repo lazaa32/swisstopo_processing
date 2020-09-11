@@ -25,7 +25,7 @@ write_cur = in_con.cursor()
 
 debug = False
 
-background_color = (255, 255, 255, 0)
+background_color = (255, 255, 255, 1)
 
 total_tiles = 0
 total_processed = 0
