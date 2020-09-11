@@ -21,14 +21,15 @@ input = sys.argv[1]
 alpha_arg = 2
 
 in_con = sqlite3.connect(input)
-in_cur = in_con.cursor()
+read_cur = in_con.cursor()
+write_cur = in_con.cursor()
 
 debug = False
 
 # Default white color
 background_color = hex_to_rgb('#FFFFFF')
 
-row = in_cur.execute(
+row = read_cur.execute(
     "SELECT value FROM metadata WHERE name = 'color'").fetchone()
 if row:
     background_color = hex_to_rgb(row[0])
@@ -43,16 +44,16 @@ for arg in range(alpha_arg, len(sys.argv)):
     alpha = int(float(salpha)*255)
 
     # Get number of tiles on given zoom
-    in_cur.execute("""
+    read_cur.execute("""
             SELECT count(1)
             FROM images i
             JOIN map m ON m.tile_id = i.tile_id
             WHERE m.zoom_level = ?
         """, (zoom,))
-    zoom_tiles = int(in_cur.fetchone()[0])
+    zoom_tiles = int(read_cur.fetchone()[0])
 
     # Get tiles
-    in_cur.execute("""
+    read_cur.execute("""
         SELECT i.tile_id, i.tile_data,
             m.zoom_level, m.tile_row, m.tile_column
         FROM images i
@@ -64,7 +65,7 @@ for arg in range(alpha_arg, len(sys.argv)):
         zoom, alpha))
     sys.stdout.flush()
 
-    for in_row in in_cur:
+    for in_row in read_cur:
         ti = in_row[0]
         tz = in_row[2]
         tr = in_row[3]
@@ -75,7 +76,7 @@ for arg in range(alpha_arg, len(sys.argv)):
         stream = io.BytesIO()
         in_im.save(stream, format="PNG")
 
-        in_cur.execute("""
+        write_cur.execute("""
             UPDATE images
             SET tile_data = ?
             WHERE tile_id = ?
