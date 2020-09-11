@@ -25,7 +25,7 @@ write_cur = in_con.cursor()
 
 debug = False
 
-background_color = (255, 255, 255, 1)
+background_color = (255, 255, 255, 0)
 
 total_tiles = 0
 total_processed = 0
@@ -71,7 +71,7 @@ for arg in range(alpha_arg, len(sys.argv)):
 
         stream = io.BytesIO()
         alpha_im = Image.new("RGBA", in_im.size, background_color)
-        blended_im = Image.blend(in_im, alpha_im, alpha)
+        blended_im = Image.blend(alpha_im, in_im, alpha)
         blended_im.save(stream, format="PNG")
 
         write_cur.execute("""
