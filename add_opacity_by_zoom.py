@@ -85,6 +85,7 @@ for arg in range(alpha_arg, len(sys.argv)):
         total_tiles += zoom_tiles
         print("Stats zoom {}: [{}/{}]".format(zoom, zoom_processed, zoom_tiles), end='\r')
         sys.stdout.flush()
+    print()
     in_con.commit()
 
 in_con.close()
