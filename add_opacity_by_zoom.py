@@ -50,7 +50,7 @@ for arg in range(alpha_arg, len(sys.argv)):
             JOIN map m ON m.tile_id = i.tile_id
             WHERE m.zoom_level = ?
         """, (zoom,))
-    zoom_tiles = int(in_cur.fetchone())
+    zoom_tiles = int(in_cur.fetchone()[0])
 
     # Get tiles
     in_cur.execute("""
