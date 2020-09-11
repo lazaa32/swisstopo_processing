@@ -64,7 +64,7 @@ for arg in range(alpha_arg, len(sys.argv)):
     """, (zoom,))
     background = False
     print('Updating Zoom {} with alpha value: {}'.format(
-        zoom, alpha))
+        zoom, salpha))
     sys.stdout.flush()
 
     for in_row in read_cur:
