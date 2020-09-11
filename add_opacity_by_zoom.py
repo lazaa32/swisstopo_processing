@@ -78,13 +78,10 @@ for arg in range(alpha_arg, len(sys.argv)):
         in_im.save(stream, format="PNG")
 
         in_cur.execute("""
-            INSERT INTO map (zoom_level, tile_row, tile_column, tile_id)
-            VALUES (?, ?, ?, ?);
-            """, (tz, tr, tc, ti,))
-        in_cur.execute("""
-            INSERT INTO images (tile_id, tile_data)
-            VALUES (?, ?);
-            """, (ti, stream.getvalue(),))
+            UPDATE images
+            SET tile_data = ?
+            WHERE tile_id = ?
+            """, (stream.getvalue(),ti,))
     total_processed += zoom_processed
     total_tiles += zoom_tiles
     print("Stats zoom {}: [{}/{}]".format(zoom, zoom_processed, zoom_tiles))
