@@ -72,7 +72,7 @@ for arg in range(alpha_arg, len(sys.argv)):
         stream = io.BytesIO()
         alpha_im = Image.new("RGBA", in_im.size, background_color)
         alpha_im.putalpha(alpha)
-        blended_im = Image.composite(alpha_im, in_im, mask=in_im.split()[3])
+        blended_im = Image.alpha_composite(alpha_im, in_im)
         blended_im.save(stream, format="PNG")
 
         write_cur.execute("""
