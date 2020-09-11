@@ -41,7 +41,6 @@ for arg in range(alpha_arg, len(sys.argv)):
             JOIN map m ON m.tile_id = i.tile_id
             WHERE i.tile_id IS NOT 'background' AND 
             m.zoom_level = ?
-            LIMIT 1000
         """, (zoom,))
     zoom_tiles = int(read_cur.fetchone()[0])
 
@@ -53,7 +52,6 @@ for arg in range(alpha_arg, len(sys.argv)):
         JOIN map m ON m.tile_id = i.tile_id
         WHERE i.tile_id IS NOT 'background' AND
         m.zoom_level = ?
-        LIMIT 1000
     """, (zoom,))
 
     print('Updating Zoom {} with alpha value: {}'.format(
