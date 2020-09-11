@@ -67,9 +67,15 @@ for arg in range(alpha_arg, len(sys.argv)):
 
         in_im = Image.open(io.BytesIO(in_row[1]))
 
+        # stream = io.BytesIO()
+        # alpha_im = Image.new("RGBA", in_im.size, background_color)
+        # blended_im = Image.blend(alpha_im, in_im, alpha)
+        # blended_im.save(stream, format="PNG")
+
+        bands = list(in_im.split())
+        bands[3] = bands[3].point(lambda x: x * alpha)
+        blended_im = Image.merge(in_im.mode, bands)
         stream = io.BytesIO()
-        alpha_im = Image.new("RGBA", in_im.size, background_color)
-        blended_im = Image.blend(alpha_im, in_im, alpha)
         blended_im.save(stream, format="PNG")
 
         write_cur.execute("""
@@ -85,5 +91,3 @@ for arg in range(alpha_arg, len(sys.argv)):
     in_con.commit()
 
 in_con.close()
-
-print("Total Stats: {}/{}".format(total_processed, total_tiles))
