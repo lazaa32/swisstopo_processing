@@ -49,6 +49,7 @@ for arg in range(alpha_arg, len(sys.argv)):
             FROM images i
             JOIN map m ON m.tile_id = i.tile_id
             WHERE m.zoom_level = ?
+            AND i.tile_id IS NOT 'background'
         """, (zoom,))
     zoom_tiles = int(in_cur.fetchone()[0])
 
@@ -59,6 +60,7 @@ for arg in range(alpha_arg, len(sys.argv)):
         FROM images i
         JOIN map m ON m.tile_id = i.tile_id
         WHERE m.zoom_level = ?
+        AND i.tile_id IS NOT 'background'
     """, (zoom,))
     zoom_tiles = 0
     zoom_processed = 0
