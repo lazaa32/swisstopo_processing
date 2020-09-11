@@ -185,5 +185,3 @@ if not test:
 med_con.close()
 low_con.close()
 out_con.close()
-
-print("Total Stats: [{}/{}]".format(total_merged, total_tiles))
