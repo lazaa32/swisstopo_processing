@@ -90,4 +90,11 @@ for arg in range(alpha_arg, len(sys.argv)):
     print()
     in_con.commit()
 
+# Update metadata table
+write_cur.execute("""
+    UPDATE metadata
+    SET value = 'png'
+    WHERE name = 'format'
+    """)
+in_con.commit()
 in_con.close()
