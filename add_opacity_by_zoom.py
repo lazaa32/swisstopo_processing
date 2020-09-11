@@ -41,7 +41,7 @@ total_tiles = 0
 total_processed = 0
 for arg in range(alpha_arg, len(sys.argv)):
     zoom, salpha = sys.argv[arg].split(':')
-    alpha = float(salpha)
+    alpha = int(float(salpha)*255)
 
     # Get number of tiles on given zoom
     in_cur.execute("""
