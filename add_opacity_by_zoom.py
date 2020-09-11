@@ -62,7 +62,7 @@ for arg in range(alpha_arg, len(sys.argv)):
     zoom_tiles = 0
     zoom_processed = 0
     background = False
-    print('Adding Zoom {} {} alpha'.format(
+    print('Updating Zoom {} with alpha value: '.format(
         zoom, alpha))
     sys.stdout.flush()
 
@@ -82,10 +82,10 @@ for arg in range(alpha_arg, len(sys.argv)):
             SET tile_data = ?
             WHERE tile_id = ?
             """, (stream.getvalue(),ti,))
-    total_processed += zoom_processed
-    total_tiles += zoom_tiles
-    print("Stats zoom {}: [{}/{}]".format(zoom, zoom_processed, zoom_tiles))
-    sys.stdout.flush()
+        total_processed += zoom_processed
+        total_tiles += zoom_tiles
+        print("Stats zoom {}: [{}/{}]".format(zoom, zoom_processed, zoom_tiles))
+        sys.stdout.flush()
     in_con.commit()
 
 in_con.close()
