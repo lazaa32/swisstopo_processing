@@ -37,6 +37,8 @@ if row:
 total_tiles = 0
 total_processed = 0
 for arg in range(alpha_arg, len(sys.argv)):
+    zoom_tiles = 0
+    zoom_processed = 0
     zoom, salpha = sys.argv[arg].split(':')
     alpha = int(float(salpha)*255)
 
@@ -57,8 +59,6 @@ for arg in range(alpha_arg, len(sys.argv)):
         JOIN map m ON m.tile_id = i.tile_id
         WHERE m.zoom_level = ?
     """, (zoom,))
-    zoom_tiles = 0
-    zoom_processed = 0
     background = False
     print('Updating Zoom {} with alpha value: {}'.format(
         zoom, alpha))
