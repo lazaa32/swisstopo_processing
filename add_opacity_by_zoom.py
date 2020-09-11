@@ -25,6 +25,8 @@ write_cur = in_con.cursor()
 
 debug = False
 
+background_color = (0, 0, 0, 0)
+
 total_tiles = 0
 total_processed = 0
 for arg in range(alpha_arg, len(sys.argv)):
@@ -39,6 +41,7 @@ for arg in range(alpha_arg, len(sys.argv)):
             JOIN map m ON m.tile_id = i.tile_id
             WHERE i.tile_id IS NOT 'background' AND 
             m.zoom_level = ?
+            LIMIT 1000
         """, (zoom,))
     zoom_tiles = int(read_cur.fetchone()[0])
 
@@ -50,6 +53,7 @@ for arg in range(alpha_arg, len(sys.argv)):
         JOIN map m ON m.tile_id = i.tile_id
         WHERE i.tile_id IS NOT 'background' AND
         m.zoom_level = ?
+        LIMIT 1000
     """, (zoom,))
 
     print('Updating Zoom {} with alpha value: {}'.format(
@@ -62,10 +66,14 @@ for arg in range(alpha_arg, len(sys.argv)):
         tr = in_row[3]
         tc = in_row[4]
         zoom_processed += 1
+
         in_im = Image.open(io.BytesIO(in_row[1]))
         in_im.putalpha(alpha)
+
         stream = io.BytesIO()
-        in_im.save(stream, format="PNG")
+        bg = Image.new("RGBA", in_im.size, background_color)
+        bg.paste(in_im, mask=in_im.split()[3])
+        bg.save(stream, format="PNG")
 
         write_cur.execute("""
             UPDATE images
