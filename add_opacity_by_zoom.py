@@ -11,18 +11,15 @@ def hex_to_rgb(h):
 
 
 if len(sys.argv) < 4:
-    print("Usage: {} <output> <input> <zoom:alpha> ...".format(
+    print("Usage: {} <input> <zoom:alpha> ...".format(
         sys.argv[0]))
     print("  Blend input * alpha")
     sys.exit(1)
 
-output = sys.argv[1]
-input = sys.argv[2]
+input = sys.argv[1]
 
-alpha_arg = 3
+alpha_arg = 2
 
-out_con = sqlite3.connect(output)
-out_cur = out_con.cursor()
 in_con = sqlite3.connect(input)
 in_cur = in_con.cursor()
 
@@ -80,11 +77,11 @@ for arg in range(alpha_arg, len(sys.argv)):
         stream = io.BytesIO()
         in_im.save(stream, format="PNG")
 
-        out_cur.execute("""
+        in_cur.execute("""
             INSERT INTO map (zoom_level, tile_row, tile_column, tile_id)
             VALUES (?, ?, ?, ?);
             """, (tz, tr, tc, ti,))
-        out_cur.execute("""
+        in_cur.execute("""
             INSERT INTO images (tile_id, tile_data)
             VALUES (?, ?);
             """, (ti, stream.getvalue(),))
@@ -92,9 +89,8 @@ for arg in range(alpha_arg, len(sys.argv)):
     total_tiles += zoom_tiles
     print("Stats zoom {}: [{}/{}]".format(zoom, zoom_processed, zoom_tiles))
     sys.stdout.flush()
-    out_con.commit()
+    in_con.commit()
 
 in_con.close()
-out_con.close()
 
 print("Total Stats: {}/{}".format(total_processed, total_tiles))
