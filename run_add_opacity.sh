@@ -32,7 +32,7 @@ cp ${DATA_DIR}/${FELS_MBTILES_FILE} ${SERVER_DIR}/${FELS_MBTILES_FILE}
 # Geroell
 GEROELL_MBTILES_FILE=SMV10_Geroell.mbtiles
 cp ${BACKUP_DIR}/${GEROELL_MBTILES_FILE} ${DATA_DIR}/${GEROELL_MBTILES_FILE}
-python3 add_opacity_by_zoom.py ${DATA_DIR}/GEROELL_MBTILES_FILE \
+python3 add_opacity_by_zoom.py ${DATA_DIR}/${GEROELL_MBTILES_FILE} \
 1:0.1 \
 2:0.1 \
 3:0.1 \
