@@ -41,7 +41,7 @@ total_tiles = 0
 total_processed = 0
 for arg in range(alpha_arg, len(sys.argv)):
     zoom, salpha = sys.argv[arg].split(':')
-    alpha = float(int(salpha) / 100)
+    alpha = float(salpha)
     in_cur.execute("""
         SELECT i.tile_id, i.tile_data,
             m.zoom_level, m.tile_row, m.tile_column
@@ -64,7 +64,7 @@ for arg in range(alpha_arg, len(sys.argv)):
         tc = in_row[4]
         zoom_processed += 1
         in_im = Image.open(io.BytesIO(in_row[1]))
-        in_im.putalpha(alpha*255)
+        in_im.putalpha(alpha)
         stream = io.BytesIO()
         in_im.save(stream, format="PNG")
 
