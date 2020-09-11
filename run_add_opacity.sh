@@ -2,7 +2,7 @@
 set -e
 set -x
 
-cp ../data_backup/BLACK_SMV10_Gletscherform ../data/test.mbtiles
+cp ../data_backup/BLACK_SMV10_Gletscherform.mbtiles ../data/test.mbtiles
 
 python3 add_opacity_by_zoom.py ../data/test.mbtiles \
 1:0.1 \
