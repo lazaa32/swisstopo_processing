@@ -1,5 +1,4 @@
 import sqlite3
-import os
 import sys
 from PIL import Image
 import io
@@ -16,32 +15,22 @@ if len(sys.argv) < 4:
     print("  Blend input * alpha (0-1)")
     sys.exit(1)
 
-input = sys.argv[1]
+input_mbtiles = sys.argv[1]
 
 alpha_arg = 2
 
-in_con = sqlite3.connect(input)
+in_con = sqlite3.connect(input_mbtiles)
 read_cur = in_con.cursor()
 write_cur = in_con.cursor()
 
 debug = False
 
-# Default white color
-background_color = hex_to_rgb('#FFFFFF')
-
-row = read_cur.execute(
-    "SELECT value FROM metadata WHERE name = 'color'").fetchone()
-if row:
-    background_color = hex_to_rgb(row[0])
-
-
 total_tiles = 0
 total_processed = 0
 for arg in range(alpha_arg, len(sys.argv)):
-    zoom_tiles = 0
     zoom_processed = 0
-    zoom, salpha = sys.argv[arg].split(':')
-    alpha = int(float(salpha)*255)
+    zoom, zoom_alpha = sys.argv[arg].split(':')
+    alpha = int(float(zoom_alpha)*255)
 
     # Get number of tiles on given zoom
     read_cur.execute("""
@@ -62,9 +51,9 @@ for arg in range(alpha_arg, len(sys.argv)):
         WHERE i.tile_id IS NOT 'background' AND
         m.zoom_level = ?
     """, (zoom,))
-    background = False
+
     print('Updating Zoom {} with alpha value: {}'.format(
-        zoom, salpha))
+        zoom, zoom_alpha))
     sys.stdout.flush()
 
     for in_row in read_cur:
@@ -82,7 +71,7 @@ for arg in range(alpha_arg, len(sys.argv)):
             UPDATE images
             SET tile_data = ?
             WHERE tile_id = ?
-            """, (stream.getvalue(),ti,))
+            """, (stream.getvalue(), ti,))
         total_processed += zoom_processed
         total_tiles += zoom_tiles
         print("Stats zoom {}: [{}/{}]".format(zoom, zoom_processed, zoom_tiles), end='\r')
