@@ -44,6 +44,25 @@ for arg in range(alpha_arg, len(sys.argv)):
         """, (zoom,))
     zoom_tiles = int(read_cur.fetchone()[0])
 
+    # Save background tile as png
+    read_cur.execute("""
+        SELECT i.tile_id, i.tile_data
+        FROM images i
+        WHERE i.tile_id='background'
+    """)
+
+    for bg_row in read_cur:
+        bg_id = bg_row[0]
+        bg_im = Image.open(io.BytesIO(bg_row[1]))
+        stream = io.BytesIO()
+        bg_im.save(stream, format="PNG")
+
+    write_cur.execute("""
+        UPDATE images
+        SET tile_data = ?
+        WHERE tile_id = ?
+        """, (stream.getvalue(), bg_id,))
+
     # Get tiles
     read_cur.execute("""
         SELECT i.tile_id, i.tile_data,
